@@ -1,0 +1,135 @@
+<div>
+    <div [hidden]="!show">
+        <div class="cui__utils__heading">
+            <strong>Options</strong>
+        </div>
+        <div class="card">
+            <div class="card-header card-header-flex">
+                <div class="d-flex flex-column justify-content-center mr-auto">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input placeholder="Search Options" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="d-flex flex-column justify-content-center">
+                    <a class="btn btn-success" href="javascript: void(0);" (click)="show = !show">
+                        + Add OptionGroup
+                    </a>
+                </div>
+            </div>
+            <!-- Tax Grp Table -->
+            <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="optiondata">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">
+                            <strong>Option Group</strong>
+                        </th>
+                        <th style="text-align: center;">
+                            <strong>Options</strong>
+                        </th>
+                        <th style="text-align: center;">
+                            <strong>Active</strong>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let option of basicTable.data ">
+                        <td>
+                            <a class="btn btn-sm btn-light kit__utils__donut--primary"
+                                (click)="editadditional(option.Id)" (click)="show = !show"><strong style=" color: #05b40e;
+                            font-size: 13px;"> {{option.OptionGroup}}</strong></a>
+
+                        </td>
+                        <td>
+                            {{option.Options}}
+                        </td>
+                        <td>
+                            <input type="checkbox" [(ngModel)]="option.isactive"
+                                (click)="active(option.Id,!option.isactive)">
+                        </td>
+
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+    <!-- Card Hide & Show -->
+    <div [hidden]="show " class="card">
+        <h5 class="ml-3 mt-3">
+            <strong *ngIf="OptionGroup.Id==0">Add Option</strong>
+            <strong *ngIf="OptionGroup.Id > 0">Edit Option</strong>
+        </h5>
+        <div class="card col-xl-10 ml-5">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mt-15" *ngFor="let item of OptionGroupType">
+                        <div class="custom-control custom-radio mb-5">
+                            <input type="radio" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="OptionGroup.OptionGroupType" [value]="item.Id" id="{{item.Id}}"
+                                name="{{item.Name}}" class="custom-control-input">
+                            <label class="custom-control-label" for="{{item.Id}}">{{item.Name}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <span class="cui-crypto-dashboard-form-label"><strong>OptionGroup</strong> </span>
+                        <input type="text" class="form-control" style="width: 300px;" placeholder="..."
+                            [(ngModel)]="OptionGroup.Name" />
+                    </div>
+                    <div class="mb-3" style="margin-left: 50px;">
+                        <span class="cui-crypto-dashboard-form-label"><strong>Description</strong> </span>
+                        <input type="text" class="form-control" style="width: 300px;" placeholder="..."
+                            [(ngModel)]="OptionGroup.Description" />
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group row">
+                        <div class="col-sm-2"><span><strong>Option </strong> </span></div>
+                        <div class="col-sm-2" style="margin-left: 54px;"><span><strong>Description </strong> </span>
+                        </div>
+                        <div class="col-sm-2" style="margin-left:54px;"> <strong>Price </strong><span></span>
+                        </div>
+                        <div class="col-sm-2" style="margin-left: 54px;"><span> <strong>Order </strong> </span></div>
+                    </div>
+
+                    <div class="form-group row" *ngFor="let item of OptionGroup.Options; let i=index">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="item.Name" style="width: 150px;" placeholder="" />
+                        </div>
+                        <div class="mb-3" style="margin-left: 40px;">
+                            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="item.Description" style="width: 150px;" placeholder="" />
+                        </div>
+                        <div class="mb-3" style="margin-left: 40px;">
+                            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="item.Price" style="width: 150px;" placeholder="" />
+                        </div>
+                        <div class="mb-3" style="margin-left: 40px;">
+                            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="item.SortOrder" style="width: 150px;" placeholder="" />
+                        </div>
+
+                        <div class="mb-3" style="margin-left: 40px;margin-top: 8px;" (click)="deleteOption(i)"
+                            [ngModelOptions]="{standalone: true}">
+                            <i class="fe fe-trash mr-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-link sp-nav-button" (click)="addOption()">+ Add Option</button>
+                </div> <br> <br>
+
+
+                <button type="button" class="btn btn-secondary px-5" (click)="back()">
+                    <i nz-icon nzType="left"></i>Back</button>
+                <button type="button" class="btn btn-success px-5 pull-right" (click)="saveOption()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

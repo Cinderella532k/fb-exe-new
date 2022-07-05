@@ -1,0 +1,139 @@
+<div class="cui__utils__heading">
+  <div class="row">
+    <div class="col">
+      <strong>Company: </strong>{{user.name}}
+    </div>
+    <div class="col" *ngFor="let item of store">
+      <strong>Store: </strong>{{item.name}}
+    </div>
+    <div class="col" style="text-align: right;" *ngFor="let item of store">
+      <strong class="text-right">subscription plan: </strong>{{item.plan.name}}
+    </div>
+    <!-- <button class="btn btn-primary" (click)="electronPrint()"
+    style="height: fit-content;margin-top: -7px;">Print</button> -->
+    <a class="btn btn-link border" (click)="electronPrint()">
+      <i class="fa fa-print"></i> Print
+    </a>
+
+  </div>
+
+  <div class="card card-body">
+    <div class="row">
+      <div class="col">
+        <div class="card border-0 bg-success text-white" style="margin-bottom: 0;">
+          <div class="card-body">
+            <div class="d-flex flex-wrap align-items-center">
+              <i class="fa fa-rupee font-size-50 mr-3"></i>
+              <div>
+                <div class="font-size-21 font-weight-bold">Total Sales</div>
+                <div class="font-size-15">Total: {{toDaySales?.sales}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-0 bg-primary text-white" style="margin-bottom: 0;">
+          <div class="card-body">
+            <div class="d-flex flex-wrap align-items-center">
+              <i class="fe fe-file-text font-size-50 mr-3"></i>
+              <div>
+                <div class="font-size-21 font-weight-bold">Invoices</div>
+                <div class="font-size-15">Total: {{toDaySales?.bills}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-0 bg-light" style="margin-bottom: 0;">
+          <div class="card-body">
+            <div class="d-flex flex-wrap align-items-center">
+              <i class="fa fa-users font-size-50 mr-3"></i>
+              <div class="text-dark">
+                <div class="font-size-21 font-weight-bold">Customers</div>
+                <div class="font-size-15">Total: {{totalCustomers}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col">
+        <div class="card border-0 bg-warning text-white" style="margin-bottom: 0;">
+          <div class="card-body">
+            <div class="d-flex flex-wrap align-items-center">
+              <i class="fa fa-undo font-size-50 mr-3"></i>
+              <div>
+                <div class="font-size-21 font-weight-bold">Refunds</div>
+                <div class="font-size-15">Total: 78,155</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="card card-body">
+    <div class="row">
+      <div class="col-4">
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-body">
+            <div *ngIf="showData">
+              <div class="text-dark font-size-18 font-weight-bold mb-1">Sales By Customer</div>
+              <div class="d-flex flex-wrap align-items-center">
+                <div class="mr-3 mt-3 mb-3 position-relative">
+                  <div style="width: 140px;">
+                    <chart [type]="'doughnut'" [data]="chartData" [options]="options"></chart>
+                  </div>
+                  <div class="tooltip text-gray-5 font-size-28" #tooltip></div>
+                </div>
+                <div #legend></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-body">
+            <div *ngIf="showData">
+              <div class="text-dark font-size-18 font-weight-bold mb-1">Day Wise Revenue</div>
+              <x-chartist [data]="barchartData" [type]="'Bar'" [options]="chartOptions" class="height-200 chart">
+              </x-chartist>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div>
+    <div class="cui__utils__heading">
+      <strong>Product Wise Sale</strong>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <nz-table #psales [nzData]="prodwisesales">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ProductName</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prod of psales.data; let i = index;">
+              <td><code>#{{i+1}}</code></td>
+              <td>{{prod.product}}</td>
+              <td>{{prod.orderQuantity}}</td>
+              <td>{{prod.totalAmount}}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>

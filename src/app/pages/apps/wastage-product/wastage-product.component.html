@@ -1,0 +1,84 @@
+<div>
+    <div class="cui__utils__heading">
+        <strong>Expiary Products</strong>
+    </div>
+    <div class="card">
+        <div class="card-header card-header-flex" style="border-bottom: 0;">
+
+            <div class="d-flex flex-column justify-content-center mr-auto">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text" nz-input placeholder="Search Products" [(ngModel)]="term" (input)="filtersearch()"/>
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                </ng-template>
+            </div>
+            <div class="col-sm-auto row">
+                <button type="button" style="height: 32px; margin-top: 16px;width: 77px;"
+                    class="btn btn-success  pull-right">Save</button>
+
+            </div>
+
+        </div>
+        <!-- <div class="card-body"> -->
+        <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="wastage">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">
+                        <strong>
+                            Product Name
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Category
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Stock Qty
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Expiary Date
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Unit
+                        </strong>
+                    </th>
+                    <!-- <th >
+                        <strong> Wastage Qty</strong>
+                    </th> -->
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of basicTable.data">
+                    <td>
+                        {{item.name}}
+                    </td>
+                    <td>
+                        {{item.description}}
+                    </td>
+                    <td>
+                        {{item.quantity1}}
+                    </td>
+                    <td>
+                        {{item.expiaryDate | date: 'MMM d yyyy'}}
+                    </td>
+                    <td>
+                        {{item.description1}}
+                    </td>
+                    <!-- <td>
+                        <input type="text" style="width: 60px;" min="1" class="form-control" />
+                    </td> -->
+
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

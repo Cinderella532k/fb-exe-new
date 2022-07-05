@@ -1,0 +1,13 @@
+{
+  "labels": ["New Customer", "Old Customer"],
+  "datasets": [
+    {
+      "data": [60, 40],
+      "backgroundColor": ["#46be8a", "#1b55e3"],
+      "borderColor": "#fff",
+      "borderWidth": 2,
+      "hoverBorderWidth": 0,
+      "borderAlign": "inner"
+    }
+  ]
+}

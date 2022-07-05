@@ -1,0 +1,508 @@
+<div>
+  <div [hidden]="!show">
+    <div class="cui__utils__heading">
+      <strong>Products</strong>
+    </div>
+
+    <div class="card">
+      <div class="card-header card-header-flex">
+
+        <div class="d-flex flex-column justify-content-center mr-auto">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <input type="text" nz-input placeholder="Search Products" [(ngModel)]="term" (input)="filtersearch()" />
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+          </ng-template>
+        </div>
+
+        <div class="col-sm-auto row">
+          <div class="mx-5 py-3">
+            <a class="btn btn-success" href="javascript: void(0);" style="margin-right:-46px; width: 100px;">
+              Import
+            </a>
+          </div>
+          <div class="mx-5 py-3">
+            <a class="btn btn-success" (click)="show = !show" href="javascript: void(0);">
+              + Add Product
+            </a>
+          </div>
+          <div class="mx-5 py-3">
+            <a class="btn btn-success" href="javascript: void(0);" style="margin-left: -47px;
+          width: 100px;">
+              Export
+            </a>
+          </div>
+          <div class="form-group row py-3 mr-5">
+            <strong class="p-2" style="font-size: medium;">Show Inactive :</strong>
+            <input type="checkbox" style=" width: 18px; height: calc(1.5em + 0.75rem + 2px);"
+              (change)="changefilter($event.target.checked)">
+          </div>
+        </div>
+
+      </div>
+
+      <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="prod">
+        <thead>
+          <tr>
+            <th><strong>Name</strong></th>
+            <th><strong>Description</strong></th>
+            <th><strong>Category</strong></th>
+            <th><strong>Tax Group</strong></th>
+            <th><strong>Price</strong></th>
+            <th><strong>Active</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of basicTable.data">
+            <td>
+              <a class="btn btn-sm btn-light" (click)="getproduct(product.id)" (click)="show = !show"> {{product.name}}
+              </a>
+            </td>
+            <td>{{product.description}}</td>
+            <td>{{product.categoryName}}</td>
+            <td>{{product.taxgroup}}</td>
+            <td>&#8377; {{product.price}}</td>
+            <td>
+              <a class="px-10">
+                <input type="checkbox" [(ngModel)]="product.isactive" (click)="active(product.id,!product.isactive)">
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+
+  <div [hidden]="show" class="card">
+    <div class="cui__utils__heading">
+      <strong>ProductsFB</strong>
+    </div>
+    <div class="card">
+      <div class="card-header card-header-flex">
+        <div class="d-flex flex-column justify-content-center mr-auto">
+          <div class="hk-pg-wrapper">
+            <div class="container">
+              <div class="cui__utils__heading">
+                <strong>{{product.description}}</strong>
+              </div>
+              <form name="form" #f="ngForm" novalidate>
+                <div class="col-xl-12 pl-0 pr-0">
+                  <section class="hk-sec-wrapper">
+                    <div class="row">
+                      <div class="col-xl-4">
+                        <div class="image-div">
+                          <!-- liveimage -->
+                          <img class="mt-20" style="border-radius: 25px;" height=auto width="350">
+                          <button class="btn"></button>
+                          <!-- droppedimage -->
+                          <img id="droppedimage" class="mt-20" style="border-radius: 25px;" height=auto width="350">
+                          <button class="btn" type="button"></button>
+                          <!-- emptyimage -->
+                          <img id="noimage" class="mt-20"
+                            style="border: 46px solid white;border-radius: 59px; margin-left:-7%;"
+                            src="assets/dist/img/img-thumb.jpg" height=auto width="350"><br>
+                        </div>
+                        <div id="imageupload" class="fileupload" appDragDropFileUpload (click)="fileField.click()"
+                          (fileDropped)="upload($event)">
+                          <span class="ddinfo">Choose a file or drag here</span>
+                          <input type="file" accept="image/*" name="avatars" #fileField
+                            (change)="upload($event.target.files)" hidden multiple>
+                        </div><br>
+                        <!-- <div class="text-center">
+                      <ngx-barcode [bc-value]="products1.ProductCode" [bc-display-value]="true"></ngx-barcode>
+                    </div> -->
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="row">
+                          <div class="col-md-3 mt-15" *ngFor="let item of productTypes">
+                            <div class="custom-control custom-radio mb-5">
+                              <input type="radio" [(ngModel)]="product.productTypeId" [value]="item.id" id="{{item.id}}"
+                                name="{{item.description}}" class="custom-control-input">
+                              <label class="custom-control-label" for="{{item.id}}">{{item.description}}</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="firstName"><strong>Product Name<span class="text-danger">*</span></strong></label>
+                          <input type="text" class="form-control" placeholder="Enter Product Name" name="name"
+                            [(ngModel)]="product.name" #name="ngModel"
+                            [ngClass]="{'is-invalid': f.submitted && name.invalid}" required />
+                          <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                            <div *ngIf="name.errors.required">Product Name is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="firstName"><strong>Description<span class="text-danger">*</span></strong></label>
+                          <textarea class="form-control mt-15" name="description" [(ngModel)]="product.description"
+                            rows="3" #description="ngModel" placeholder="Textarea"></textarea>
+                          <div *ngIf="f.submitted && description.invalid" class="invalid-feedback">
+                            <div *ngIf="description.errors.required">Description is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="firstName"><strong>Product Code</strong></label>
+                          <input type="text" class="form-control" placeholder="Enter Product Code" name="productCode"
+                            [(ngModel)]="product.productCode" #productCode="ngModel" />
+                        </div>
+                        <div class="form-group">
+                          <label for="firstName"><strong>Category</strong></label>
+                          <select class="form-control custom-select" [(ngModel)]="product.categoryId"
+                            [ngModelOptions]="{standalone: true}" name="categoryName"
+                            [ngClass]="{'is-invalid': f.submitted && product.CategoryId  == 0}">
+                            <option value="0">Select Category</option>
+                            <option *ngFor="let item of category" value="{{item.id}}">{{item.description}}</option>
+                          </select>
+                          <div *ngIf="f.submitted && product.CategoryId  == 0" class="invalid-feedback">
+                            <div *ngIf="product.CategoryId  == 0">Product Name is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="firstName"><strong>KOT Group</strong></label>
+                          <select class="form-control custom-select">
+                            <option value=0>No KOT Group</option>
+                            <option></option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="firstName"><strong>TaxGroup</strong></label>
+                          <select class="form-control custom-select" [(ngModel)]="product.taxGroupId"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let item of taxgroups" value="{{item.id}}">{{item.description}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="firstName"><strong>Unit</strong></label>
+                          <select class="form-control custom-select" [(ngModel)]="product.unitId"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let item of units" value="{{item.id}}">{{item.description}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group row">
+                          <div class="form-group col-xl-6">
+                            <strong>Sort Order</strong>
+                            <input type="number" class="form-control" placeholder="Enter Product SortOrder"
+                              name="sortOrder" [(ngModel)]="product.sortOrder" #sortOrder="ngModel"
+                              [ngClass]="{'is-invalid': sortOrder.invalid}" required />
+                            <div *ngIf="sortOrder.invalid" class="invalid-feedback">
+                              <div *ngIf="sortOrder.errors.required">SortOrder can't be empty!</div>
+                            </div>
+                          </div>
+                          <div class="form-group row" style="margin-left: 10px;">
+                            <div class="form-group">
+                              <strong>Recommended</strong>
+                              <div class="col-sm-6" style="margin-top: 10px;margin-left: 30px;">
+                                <input type="checkbox" placeholder="Enter Product Recomended" name="recomended"
+                                  [(ngModel)]="product.recomended" #recomended="ngModel" />
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                              <strong>&nbsp; IsSaleProdGroup</strong>
+                              <div class="col-sm-6" style="margin-top: 10px;margin-left: 30px;">
+                                <input type="checkbox" placeholder="Enter" name="isSaleProdGroup"
+                                  [(ngModel)]="product.isSaleProdGroup" #isSaleProdGroup="ngModel" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="form-group col-xl-6">
+                            <strong>Min Quantity</strong>
+                            <input type="number" class="form-control" placeholder="Enter Product minquantity"
+                              name="minquantity" [(ngModel)]="product.minquantity" #minquantity="ngModel" />
+                          </div>
+                          <div class="form-group col-xl-6">
+                            <strong>Min Block</strong>
+                            <input type="number" class="form-control" placeholder="Enter Product minblock"
+                              name="minblock" [(ngModel)]="product.minblock" #minblock="ngModel" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div>
+                            <div class="form-group row">
+                              <div class="col-sm-3">
+                                <strong>Dine Price</strong>
+                              </div>
+                              <div class="col-sm-3">
+                                <strong>Takeaway Price</strong>
+                              </div>
+                              <div class="col-sm-3">
+                                <strong>Delivery Price</strong>
+                              </div>
+                              <div class="col-sm-3">
+                                <strong>Up Price</strong>
+                              </div>
+
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="form-group row">
+                              <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Enter Product Price" name="Price"
+                                  required />
+                                <div class="invalid-feedback">
+                                  <div>Price can't be empty!</div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Enter Product TakeawayPrice"
+                                  name="TakeawayPrice" required />
+                                <div class="invalid-feedback">
+                                  <div>TakeawayPrice can't be empty!</div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Enter Product DeliveryPrice"
+                                  name="DeliveryPrice" required />
+                                <div class="invalid-feedback">
+                                  <div>DeliveryPrice can't be empty!</div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Enter Product UPPrice"
+                                  name="UPPrice" required />
+                                <div class="invalid-feedback">
+                                  <div>UPPrice can't be empty!</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form">
+                          <ng-multiselect-dropdown #multiSelect [placeholder]="'Select OptionGroup'" [(ngModel)]="selectedItems"
+                            name="optionGroups" [settings]="settings" [disabled]="false"
+                            (onFilterChange)="onFilterChange($event)" (onSelect)="onItemSelect($event)"
+                            (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+                            (onDeSelectAll)="onDeSelectAll($event)">
+                          </ng-multiselect-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-12 px-0 pt-20 text-right">
+                      <button class="btn btn-secondary btn-sm mx-10 w-10" (click)="back()"
+                        style="margin-top: 20px;">Back</button>&nbsp;&nbsp;
+                      <button type="submit" class="btn btn-success btn-sm mx-10 w-10" style="margin-top: 20px;"  
+                       (click)="focus();products1.CategoryId != 0&&f.form.valid && saveProduct()">Save
+                        Product</button>
+                    </div>
+                  </section>
+                </div>
+              </form>
+              <br>
+
+              <div class="card">
+                <section class="hk-sec-wrapper">
+                  <h4>Predefined Quantities</h4>
+                  <div class="col-xl-12 col-sm-12 row mt-30">
+                    <div class="col-xl-3 col-sm-3">
+                      <input type="checkbox">
+                      <strong class="ml-2">Name</strong>
+                    </div>
+                    <div class="col-xl-3 col-sm-3">
+                      <strong>Quantity</strong>
+                    </div>
+                    <div class="col-xl-3 col-sm-3">
+                      <strong>FreeQuantity</strong>
+                    </div>
+                    <div class="col-xl-3 col-sm-3">
+                      <strong>Price</strong>
+                    </div>
+                  </div>
+                  <div class="row col-sm-12 col-xl-12 mt-15">
+                    <div class="col-xl-3 col-sm-3 py-3">
+                      <input type="checkbox" class="pdqcb">
+                      <span class="text-center ml-2"></span>
+                    </div>
+                    <div class="col-xl-3 col-sm-3 py-3">
+                      <span class="text-center"></span>
+                    </div>
+                    <div class="col-xl-3 col-sm-3 py-3">
+                      <span class="text-center"></span>
+                    </div>
+                    <div class="col-xl-3 col-sm-3 py-3">
+                      <div class="input-group">
+                        <input type="text" class="form-control form-control-lm" placeholder="Price">
+                        <div class="input-group-append">
+                          <button class="btn btn-light btn-sm" type="button">base</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 px-0 pt-20 text-right">
+                    <button type="submit" class="btn btn-success btn-sm mx-10 w-10"
+                      style="margin-right:10px;">Save</button>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <ng-template #contentDetail1 let-modal>
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+      <div class="modal-dialog ma-0" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Option Group</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <select #qwerty class="form-control custom-select">
+              <option ></option>
+            </select>
+          </div>
+          <div class="modal-body">
+            <div class="col-sm-3">
+              <input type="checkbox" />
+              <strong></strong>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-danger btn-sm mx-10 w-20" data-dismiss="modal"
+             >Close</button>
+            <button class="btn btn-success btn-sm mx-10 w-20">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template> -->
+  <ng-template #contentDetail1 let-modal>
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+      <div class="modal-dialog ma-0" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Option Group</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+              (click)="modal.close('Save click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <select #qwerty class="form-control custom-select" (change)="OptionGroupId1 = $event.target.value">
+              <option *ngFor="let item of getOptionGroups(); let pointIndex=index" value="{{item.id}}"
+                id="{{pointIndex}}">{{item.name}}</option>
+            </select>
+          </div>
+          <div class="modal-body" *ngFor="let item of getOption(OptionGroupId1); let i=index">
+            <div class="col-sm-3">
+              <input type="checkbox" (change)="selectOption($event,item)" [checked]="item.checked" />
+              <strong class="text-light">{{item.name}}</strong>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-danger btn-sm mx-10 w-20" data-dismiss="modal"
+              (click)="modal.close('Save click')">Close</button>
+            <button class="btn btn-success btn-sm mx-10 w-20"
+              (click)="saveGroup(OptionGroupId1);modal.close('Save click')">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #contentDetail2 let-modal>
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+      <div class="modal-dialog ma-0" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Options</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <input>
+              <label></label>
+              <br><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #contentDetail3 let-modal>
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+      <div class="modal-dialog ma-0" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Addon Group</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <select #qwerty class="form-control custom-select">
+              <option>
+              </option>
+            </select>
+          </div>
+          <div class="modal-body">
+            <div class="col-sm-3">
+              <input type="checkbox" />
+              <strong></strong>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-danger btn-sm mx-10 w-20" data-dismiss="modal">Close</button>
+            <button class="btn btn-success btn-sm mx-10 w-20">Save
+              changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #contentDetail4 let-modal>
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+      <div class="modal-dialog ma-0" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Addon Group</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="col-sm-3">
+              <input type="checkbox" />
+              <strong></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #PopUp let-modal>
+    <div class="modal d-block position-static overflow-show" tabindex="-1" role="dialog">
+      <div class="modal-dialog ma-0" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Warning!!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Do you want to overwrite Optiongroups?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-danger btn-sm mx-10 w-20">No</button>
+            <button class="btn btn-success btn-sm mx-10 w-20">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

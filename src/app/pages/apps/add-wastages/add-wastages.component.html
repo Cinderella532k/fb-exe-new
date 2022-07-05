@@ -1,0 +1,98 @@
+<div>
+    <div class="cui__utils__heading">
+        <strong>Add-Wastages</strong>
+    </div>
+    <div class="card">
+        <div class="card-header card-header-flex" style="border-bottom: 0;">
+
+            <div class="d-flex flex-column justify-content-center mr-auto">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text" nz-input placeholder="Search Products" />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                </ng-template>
+            </div>
+            <div class="col-sm-auto row">
+                <button type="button" (click)="showModal()" style="height: 32px; margin-top: 16px;width: 122px;"
+                    class="btn btn-success  ">+
+                    Add-Wastage</button>
+            </div>
+
+        </div>
+
+        <nz-modal [(nzVisible)]="isVisible" nzTitle="Add-Wastage" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+            [nzOkLoading]="isOkLoading">
+            <span> <strong>Product</strong> </span>
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Product" [(ngModel)]="wastages.productId">
+                <nz-option *ngFor="let option of products" [nzLabel]="option.product" [nzValue]="option.productId">
+                </nz-option>
+            </nz-select> <br> <br>
+            <span><strong>Wastage Qty</strong> </span>
+            <input nz-input placeholder="" [(ngModel)]="wastages.quantity" /><br> <br>
+        </nz-modal>
+
+        <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="waste">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">
+                        <strong>
+                            Product Name
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Category
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Barcode
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Wastage Date
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Price
+                        </strong>
+                    </th>
+
+                    <th style="text-align: center;">
+                        <strong> Wastage Qty</strong>
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of basicTable.data">
+                    <td>
+                        {{item.product.name}}
+                    </td>
+                    <td>
+                        {{item.product.description}}
+                    </td>
+                    <td>
+                        {{item.product.barCode}}
+                    </td>
+                    <td>
+                        {{item.wastageDate | date: 'MMM d, h:mm a'}}
+                    </td>
+                    <td>
+                        {{item.product.price}}
+                    </td>
+                    <td>
+                        {{item.quantity}}
+                    </td>
+
+
+
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

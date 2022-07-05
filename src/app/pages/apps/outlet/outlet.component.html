@@ -1,0 +1,168 @@
+<div [hidden]="!show">
+    <div class="cui__utils__heading">
+        <strong>Outlet</strong>
+    </div>
+    <div class="card">
+        <div class="card-header card-header-flex" style="border-bottom: 0;">
+
+            <div class="d-flex flex-column justify-content-center mr-auto">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text" nz-input placeholder="Search Outlet" [(ngModel)]="term" (input)="filtersearch()" />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                </ng-template>
+            </div>
+            <div class="mx-5 py-3">
+                <a (click)="show = !show" class="btn btn-success" href="javascript: void(0);">
+                    + Add Outlet
+                </a>
+            </div>
+
+        </div>
+        <!-- <div class="card-body"> -->
+        <nz-table #basicTable class="kit__utils__table mb-4 px-4" nzSize="small" [nzData]="tabledata">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">
+                        <strong>
+                            OutletName
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            City
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Contact No
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong> Email</strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong> Opening Time</strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong> Closing Time</strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong> Active</strong>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of basicTable.data">
+                    <td class="mw-300p" style="font-size:12px;"> <a
+                            class="btn btn-sm btn-light kit__utils__donut--primary" (click)="editstore(item)">
+                            <strong style=" color: #e31242;
+                        font-size: 13px;">
+                                {{item.name}}</strong></a><br>
+                        <span style="font-size:12px;">{{item.address}}</span>
+                    </td>
+                    <td>
+                        {{item.city}}
+                    </td>
+                    <td>
+                        {{item.contactNo}}
+                    </td>
+                    <td>
+                        {{item.email}}
+                    </td>
+                    <td>
+                        {{item.openingTime}}
+                    </td>
+                    <td>
+                        {{item.closingTime}}
+                    </td>
+                    <td>
+                        <a class="px-10">
+                            <input type="checkbox" [(ngModel)]="item.isactive" (click)="active(item.id,!item.isactive)">
+                        </a>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+<div [hidden]="show" class="card">
+
+    <div class="card col-xl-6" style="margin-left: 230px;">
+        <h4 style="text-align: center;"><strong>Outelt</strong></h4>
+
+        <h4 class="ml-3 mt-3">
+            <strong *ngIf="OutletForm.id==0">Add Store</strong>
+            <strong *ngIf="OutletForm.id > 0">Edit Store</strong>
+        </h4>
+
+        <div class="car-body p-4 mr-1">
+            <div class="form-group">
+                <strong for="" class="mb-2">Outlet Name:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.name" />
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Address:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.address" />
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">City:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.city" />
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Pincode:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.postalCode" />
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Contact No:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.contactNo" />
+
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Email:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.email" />
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">OpeningTime:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.openingTime" />
+
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">ClosingTime:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.closingTime" />
+
+
+            </div>
+            <div class="form-group">
+                <strong for="" class="mb-2">GSTno:</strong>
+                <input class="form-control" [(ngModel)]="OutletForm.gsTno" />
+
+            </div>
+        </div>
+    </div>
+    <div style="height: 58px;">
+        <button class="btn btn-success btn-sm mx-10 w-20" style="margin-left: 400px;width: 112px;"
+            (click)="AddOutlet()">Save</button>
+        <button class="btn btn-indigo btn-sm mx-10 w-20" style="width: 100px;margin-left: 22px;"
+            (click)="back()">Back</button>
+
+    </div>
+
+</div>

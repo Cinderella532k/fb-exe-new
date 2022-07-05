@@ -1,0 +1,88 @@
+<div>
+    <div class="cui__utils__heading">
+        <strong>OrderWise Sales</strong>
+        <strong style="float: right;">Total Sales: <span style="color: green;">{{TotalSales | number: ".2"}}</span></strong>
+        <strong style="float: right;margin-right: 20px;">Total Payments: <span style="color: green;">{{TotalPayments | number: ".2"}}</span></strong>
+    </div>
+    <div class="card">
+        <div class="card-header card-header-flex" style="border-bottom: 0;">
+
+            <div class="d-flex flex-column justify-content-center mr-auto">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text" nz-input placeholder="Search Products" [(ngModel)]="term" (input)="calculate()"/>
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                </ng-template>
+            </div>
+
+
+
+            <div class="col-xl-4" style="margin-top: 15px;">
+                <nz-range-picker style="width: inherit;" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)">
+                </nz-range-picker>
+            </div>
+
+
+
+        </div>
+        <!-- <div class="card-body"> -->
+        <nz-table #basicTable class="kit__utils__table mb-4 px-4" nzSize="small" [nzData]="ordsales">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">
+                        <strong>
+                            Id
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Date
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Tax
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong> Discount</strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            BillAmount
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            PaidAmount
+                        </strong>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of basicTable.data | filter:term;">
+                    <td>
+                        {{order.invoiceNo}}
+                    </td>
+                    <td>
+                        {{order.orderedDate | date:'MM/dd/yyyy'}}
+                    </td>
+                    <td>
+                        &#8377; {{order.totalTax}}
+                    </td>
+                    <td>
+                        &#8377; {{order.discAmount}}
+                    </td>
+                    <td>
+                        &#8377; {{order.billAmount}}
+                    </td>
+                    <td>
+                        &#8377; {{order.paidAmount}}
+                    </td>
+
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

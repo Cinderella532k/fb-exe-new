@@ -1,0 +1,219 @@
+<div class="hk-pg-wrapper">
+  <nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+      <li class="breadcrumb-item active" aria-current="page"><i class="icon-note"></i>Store Autocomplet</li>
+    </ol>
+  </nav>
+
+  <div class="container">
+    <div class="col-xl-12 pl-0 pr-0">
+      <section class="hk-sec-wrapper">
+        <div class="row">
+          <div class="col-xl-4">
+            <strong class="text-light">Location</strong>
+          </div>
+          <div class="col-xl-6  offset-xl-4">
+              <div class="form-group row">
+             <ng-autocomplete
+                 [data]="store" style="width: 20em;margin-left: 30px;
+                 border-style: solid;border-color: #99abb1;"
+                 [searchKeyword]="key"
+                  (selected)='selectEvent($event)' 
+                  placeHolder="Choose Location"   [itemTemplate]="itemTemplate1"
+                  [notFoundTemplate]="notFoundTemplate1">
+                </ng-autocomplete> 
+
+                <ng-template #itemTemplate1 let-item>
+                  <a [innerHTML]="item.Name" ></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate1 let-notFound>
+                  <div [innerHTML]="notFound" ></div>
+                </ng-template>
+                <br><br>
+              </div>
+            </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+
+  <div class="container" *ngIf="show" >
+    <div class="col-xl-12 pl-0 pr-0">
+      <section class="hk-sec-wrapper">
+        <div class="row">
+          <div class="col-xl-4">
+            <strong class="text-light">Product Basic Info</strong>
+          </div>
+          <div class="col-xl-6  offset-xl-4">
+            <div class="form-group">
+              <div>
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    <strong class="text-light">Dine Price</strong>
+                  </div>
+                  <div class="col-sm-3">
+                    <strong class="text-light">Takeaway Price</strong>
+                  </div>
+                  <div class="col-sm-3">
+                    <strong class="text-light">Delivery Price</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-group row">
+                  <div class="col-sm-3">
+                    <input type="number" class="form-control" placeholder="Enter Product Price" name="Price"
+                      [(ngModel)]="product.Price" />
+                  </div>
+                  <div class="col-sm-3">
+
+                    <input type="number" class="form-control" placeholder="Enter Product TakeawayPrice"
+                      name="TakeawayPrice" [(ngModel)]="product.TakeawayPrice" />
+                  </div>
+                  <div class="col-sm-3">
+                    <input type="number" class="form-control" placeholder="Enter Product DeliveryPrice"
+                      name="DeliveryPrice" [(ngModel)]="product.DeliveryPrice" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+
+    <div class="col-xl-12 pl-0 pr-0">
+      <section class="hk-sec-wrapper">
+        <div class="row">
+          <div class="col-xl-4">
+            <strong class="text-light">Product Option Info
+            </strong>
+          </div>
+          <div class="col-xl-6 offset-xl-4">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" *ngFor="let item of product3">
+                <a class="nav-link" data-toggle="tab" href="#2" role="tab" aria-controls="size"
+                  (click)="number = item.Id">{{item.name}}</a>
+                <input type="hidden" value="{{item.id}}" />
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="mt-4 mb-4 tab-pane fade show active" id="2" role="tabpanel">
+                <div>
+                  <div class="form-group row">
+                    <div class="col-sm-3">
+                      <strong class="text-light">Name</strong>
+                    </div>
+                    <div class="col-sm-3">
+                      <strong class="text-light">Dine Price</strong>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <strong class="text-light">Takeaway Price</strong>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <strong class="text-light">Delivery Price</strong>
+                    </div>
+                  </div>
+                </div>
+                <div *ngFor="let item of product2">
+                  <div class="form-group row" *ngIf="item.OptionGroupId == number">
+                    <div class="col-sm-3">
+                      <strong class="text-light">{{item.name}}</strong>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="DineinPrice" [(ngModel)]="item.price" />
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="TakeawayPrice"
+                        [(ngModel)]="item.TakeawayPrice" />
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="DeliveryPrice"
+                        [(ngModel)]="item.DeliveryPrice" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- <div class="col-xl-12 pl-0 pr-0">
+      <section class="hk-sec-wrapper">
+        <div class="row">
+          <div class="col-xl-4">
+            <strong class="text-light">Product Addon Info
+            </strong>
+          </div>
+          <div class="col-xl-6 offset-xl-4">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" *ngFor="let item of product5">
+
+                <a class="nav-link" data-toggle="tab" href="#1" role="tab" aria-controls="Extra"
+                  (click)="number2 = item.Id">{{item.Description}}</a>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="mt-4 mb-4 tab-pane fade show active" id="1" role="tabpanel">
+                <div>
+                  <div class="form-group row">
+                    <div class="col-sm-3">
+                      <strong class="text-light">Name</strong>
+                    </div>
+                    <div class="col-sm-3">
+                      <strong class="text-light">Dine Price</strong>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <strong class="text-light">Takeaway Price</strong>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <strong class="text-light">Delivery Price</strong>
+                    </div>
+                  </div>
+                </div>
+                <div *ngFor="let item of product4">
+                  <div class="form-group row" *ngIf="item.AddonGroupId == number2">
+                    <div class="col-sm-3">
+                      <strong class="text-light">{{item.Description}}</strong>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="DineinPrice" name="Price2"
+                        [(ngModel)]="item.Price" />
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="TakeawayPrice" name="TakeawayPrice2"
+                        [(ngModel)]="item.TakeawayPrice" />
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="DeliveryPrice" name="DeliveryPrice2"
+                        [(ngModel)]="item.DeliveryPrice" />
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div> -->
+    <div class="col-xl-12 pl-0 pr-0 text-right">
+        <button type="button" class="btn btn-outline-secondary" (click)="location.back()">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-outline-primary"(click)="saveProduct()">Save Product</button>
+    </div>
+  
+  </div>
+</div>

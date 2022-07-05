@@ -1,0 +1,127 @@
+<div [hidden]="!show">
+    <div class="cui__utils__heading">
+        <strong>Outlet</strong>
+    </div>
+    <div class="card">
+        <div class="card-header card-header-flex" style="border-bottom: 0;">
+
+            <div class="d-flex flex-column justify-content-center mr-auto">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                    <input type="text" nz-input placeholder="Search User" />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                    <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                </ng-template>
+            </div>
+            <div class="mx-5 py-3">
+                <a (click)="show = !show" class="btn btn-success" href="javascript: void(0);">
+                    + Add User
+                </a>
+            </div>
+
+        </div>
+        <!-- <div class="card-body"> -->
+        <nz-table #basicTable class="kit__utils__table mb-4 px-4" nzSize="small" [nzData]="getuser.users">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">
+                        <strong>
+                            Name
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Role
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Store Name
+                        </strong>
+                    </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Delete
+                        </strong>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of basicTable.data">
+                    <td>
+                        <a class="btn btn-sm btn-light kit__utils__donut--primary" (click)="editstore(item)"><strong
+                                style=" color: #e31242;
+                            font-size: 13px;"> {{item.name}}</strong></a>
+                    </td>
+                    <td>
+                        {{item.role.name}}
+                    </td>
+                    <td>
+                        {{item.Stores}}
+                    </td>
+
+                    <td>
+                        <a class="btn btn-link " (click)="deleteuser(item.id)">
+                            <i class="fe fe-trash-2"></i>
+                        </a>
+                    </td>
+
+
+
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+<div [hidden]="show" class="card">
+
+    <div class="card col-xl-6" style="margin-left: 230px;">
+        <h4 style="text-align: center;"><strong>User</strong></h4>
+
+        <h4 class="ml-3 mt-3">
+            <strong *ngIf="userData.id==0">Add User</strong>
+            <strong *ngIf="userData.id > 0">Edit User</strong>
+        </h4>
+
+      
+
+        <div class="car-body p-4 mr-1">
+            <div class="form-group">
+                <strong for="" class="mb-2">User Name:</strong>
+                <input class="form-control" [(ngModel)]="userData.name" />
+
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Enter Pin:</strong>
+                <input class="form-control" [(ngModel)]="userData.pin" />
+
+
+            </div>
+            <br />
+            <strong class="mb-2">Select Role:</strong>
+            <nz-select nzAllowClear nzPlaceHolder="Select Role" [(ngModel)]="userData.roleId">
+                <nz-option *ngFor="let option of role" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+            </nz-select>
+            <br />
+            <br>
+
+            <strong for="" class="mb-2">Select Store:</strong>
+            <nz-select *ngIf="userData" [(ngModel)]="userData.mapped_stores" nzMode="'multiple'" nzShowSearch>
+                <nz-option style="width: 522px;" *ngFor="let option of store" [nzLabel]="option.name"
+                    [nzValue]="option.id">
+                </nz-option>
+            </nz-select>
+            <br />
+
+        </div>
+    </div>
+    <div style="height: 58px;">
+        <button class="btn btn-success btn-sm mx-10 w-20" style="margin-left: 400px;width: 112px;"
+            (click)=" saveuser()">Save</button>
+        <button class="btn btn-indigo btn-sm mx-10 w-20" style="width: 100px;margin-left: 22px;"
+            (click)="back()">Back</button>
+
+    </div>
+
+</div>

@@ -1,0 +1,133 @@
+<div>
+    <div [hidden]="!show">
+        <div class="cui__utils__heading">
+            <strong>Additional-Charge</strong>
+        </div>
+        <div class="card">
+            <div class="card-header card-header-flex" style="border-bottom: 0;">
+
+                <div class="d-flex flex-column justify-content-center mr-auto">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input placeholder="Search Additional-Charge" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button nzTyp e="primary" nzSearch><i nz-icon nzType="search"></i></button>
+                    </ng-template>
+                </div>
+                <div class="col-sm-auto row">
+                    <button type="button" style="height: 32px; margin-top: 16px;width: 130px;" class="btn btn-success  "
+                        (click)="show = !show">+ Add-additional
+                    </button>
+                </div>
+            </div>
+
+            <!-- <div class="card-body"> -->
+            <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="addtnchrg">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">
+                            <strong>
+                                Description
+                            </strong>
+                        </th>
+                        <th style="text-align: center;">
+                            <strong>
+                                ChargeType
+                            </strong>
+                        </th>
+                        <th style="text-align: center;">
+                            <strong>
+                                ChargeValue
+                            </strong>
+                        </th>
+                        <th style="text-align: center;">
+                            <strong>
+                                TaxGroup
+                            </strong>
+                        </th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of basicTable.data">
+                        <td>
+                            <a class="btn btn-sm btn-light kit__utils__donut--primary"
+                                (click)="editadditional(item)"><strong style=" color: #05b40e;
+                            font-size: 13px;"> {{item.description}}</strong></a>
+
+                        </td>
+                        <td>
+                            {{(item.ChargeType==1)?'Percentage':'Cash'}}
+                        </td>
+                        <td>
+                            {{(item.chargeType==1)?item.chargeValue+'%':'&#x20b9;'+item.chargeValue+'.00'}}
+                        </td>
+                        <td>
+                            {{item.taxGroup.description}}
+                        </td>
+
+
+
+
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+
+
+    <div [hidden]="show" class="card">
+
+        <div class="card col-xl-6" style="margin-left: 230px;">
+            <h4 style="text-align: center;"><strong>Additional-Charge</strong></h4>
+
+            <h4 class="ml-3 mt-3">
+                <strong *ngIf="additionalcharge.id==0">Add Additional</strong>
+                <strong *ngIf="additionalcharge.id > 0">Edit Additional</strong>
+            </h4>
+
+            <div class="car-body p-4 mr-1">
+                <div class="form-group">
+                    <strong for="" class="mb-2">Description:</strong>
+                    <input class="form-control" [(ngModel)]="additionalcharges.description" />
+                </div>
+                <br>
+                <strong class="mb-2">Charge Type:{{additionalcharges.chargeType}}</strong>
+                <nz-select nzAllowClear nzPlaceHolder="Select Role" [(ngModel)]="additionalcharges.chargeType">
+                    <!-- <nz-option nzLabel="Percentage" nzValue="'1'"></nz-option>
+                    <nz-option nzLabel="Cash" nzValue="'2'"></nz-option> -->
+                    <nz-option *ngFor="let option of types" style="width: 522px;" [nzLabel]="option.name"
+                        [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+                <br>
+                <br>
+
+                <div class="form-group">
+                    <strong for="" class="mb-2">Charge Value:</strong>
+                    <input class="form-control" [(ngModel)]="additionalcharges.chargeValue" />
+                </div>
+                <br>
+
+                <strong for="" class="mb-2">Select GST:</strong>
+                <nz-select nzShowSearch [(ngModel)]="additionalcharges.taxGroupId">
+                    <nz-option *ngFor="let option of tax" style="width: 522px;" [nzLabel]="option.description"
+                        [nzValue]="option.id">
+                    </nz-option>
+                </nz-select>
+                <br>
+
+            </div>
+        </div>
+        <div style="height: 58px;">
+            <button class="btn btn-success btn-sm mx-10 w-20" style="margin-left: 400px;width: 112px;"
+                (click)="addadditional()">Save</button>
+            <button class="btn btn-indigo btn-sm mx-10 w-20" style="width: 100px;margin-left: 22px;"
+                (click)="back()">Back</button>
+
+        </div>
+
+    </div>
+
+</div>

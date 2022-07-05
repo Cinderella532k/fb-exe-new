@@ -1,0 +1,118 @@
+<form name="form" (ngSubmit) = "f.form.valid && saveData()" #f="ngForm" novalidate>
+
+<div class="col-xl-12 row">
+
+    <div class="card col-xl-5">
+        <h4 style="text-align: center;"><strong>Shop Details</strong></h4>
+        <div class="car-body p-4 mr-1">
+            <div class="form-group">
+                <strong for="" class="mb-2">CompanyName:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.company.name" #name="ngModel" name = "name"
+                    [ngClass]="{'is-invalid': f.submitted && name.invalid}" required />
+                <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                    <div *ngIf="name.errors.required">Shop Name is required</div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Address:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.company.address" #address="ngModel" name = "address"
+                    [ngClass]="{'is-invalid': f.submitted && address.invalid}" required />
+                <div *ngIf="f.submitted && address.invalid" class="invalid-feedback">
+                    <div *ngIf="address.errors.required">Shop Address is required</div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">City:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.company.city" #city="ngModel" name = "city"
+                    [ngClass]="{'is-invalid': f.submitted && city.invalid}" required />
+                <div *ngIf="f.submitted && city.invalid" class="invalid-feedback">
+                    <div *ngIf="city.errors.required">City is required</div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">State:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.company.state" #state="ngModel" name = "state"
+                    [ngClass]="{'is-invalid': f.submitted && state.invalid}" required />
+                <div *ngIf="f.submitted && state.invalid" class="invalid-feedback">
+                    <div *ngIf="state.errors.required">State is required</div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Country:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.company.country" #country="ngModel" name = "country"
+                    [ngClass]="{'is-invalid': f.submitted && country.invalid}" required />
+                <div *ngIf="f.submitted && country.invalid" class="invalid-feedback">
+                    <div *ngIf="country.errors.required">Country is required</div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Postalcode:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.company.postalCode" #postalCode="ngModel"  name = "postalCode"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-1">
+
+    </div>
+
+    <div class="card col-xl-5">
+        <h4 style="text-align: center;"><strong>Owner Details</strong></h4>
+        <div class="car-body p-4 mr-1">
+            <div class="form-group">
+                <strong for="" class="mb-2">Owner:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.accounts.name" #name="ngModel" name = "name"
+                    [ngClass]="{'is-invalid': f.submitted && name.invalid}" />
+                <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                    <div *ngIf="name.errors.required">Owner Name is required</div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Email:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.accounts.email" #email="ngModel" name = "email"
+                    [ngClass]="{'is-invalid': f.submitted && email.invalid}" required />
+                <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                    <div *ngIf="email.errors.required">Owner Email is required</div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">Mobile No:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.accounts.phoneNo" #phoneNo="ngModel" name = "phoneNo"
+                    [ngClass]="{'is-invalid': f.submitted && phoneNo.invalid}" required minlength="5" />
+            </div>
+            <div *ngIf="f.submitted && phoneNo.invalid" class="invalid-feedback">
+                <div *ngIf="phoneNo.errors.required">Owner PhoneNo is required</div>
+                <div *ngIf="phoneNo.errors.minlength">Enter valid phone no</div>
+            </div>
+            <br />
+            <div class="form-group">
+                <strong for="" class="mb-2">User Pin:</strong>
+                <input class="form-control" [(ngModel)]="companydetails.user.pin" #pin="ngModel" name = "pin"
+                    [ngClass]="{'is-invalid': f.submitted && (pin.invalid || errormsg!='') }" required min="1000"
+                    max="9999" />
+                <div *ngIf="f.submitted && pin.invalid" class="invalid-feedback">
+                    <div *ngIf="pin.errors.required">4 digit Pin is required</div>
+                </div>
+                <div *ngIf="f.submitted && errormsg!=''" class="invalid-feedback">
+                    <div>{{errormsg}}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</form>
+
+
+<div>
+    <button class="btn btn-success btn-sm mx-10 w-20" style="margin-left: 425px;width: 112px;" (click) = "focus()">Save</button>
+    <button class="btn btn-indigo btn-sm mx-10 w-20" style="width: 112px;margin-left: 22px;" (click)="getcompany()">Reset</button>
+
+</div>

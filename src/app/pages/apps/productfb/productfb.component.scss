@@ -1,0 +1,37 @@
+.image-div .btn {
+  position: absolute;
+  top: 5%;
+  left: 87%;
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.image-div .btn:hover {
+  opacity: 1;
+}
+
+.error_msg {
+  position: absolute;
+}
+
+.deleted {
+  background: lightgrey;
+}
+
+.input[type=checkbox]:checked + b:before {
+  content: "\2713";
+  font-family: ux-icons;
+
+}
+
+.input[type=checkbox]:indeterminate + b:before {
+  content: "\f067";
+  font: 14px/1 DXIcons;
+}
+
